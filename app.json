@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "react_native_crash_course",
-    "slug": "react_native_crash_course",
+    "name": "Aora",
+    "scheme":"aora",
+    "slug": "aora",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,7 +22,8 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     }
   }
 }
