@@ -18,6 +18,10 @@ module.exports = {
         gray: {
           100: "#CDCDE0",
         },
+        button:{
+          from: '#FF8C00',
+          to: '#FFA300'
+        }
       },
       fontFamily: {
         pthin: ["Poppins-Thin", "sans-serif"],
