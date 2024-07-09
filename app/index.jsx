@@ -4,11 +4,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native';
 import CustomButton from '../components/customButton.jsx';
 import images from '../constants/images';
-import { router } from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import 'react-native-url-polyfill/auto'
+import { useGlobalContext } from '../context/GlobalProvider.js';
 
 
 export default function App() {
+  const {isLoading, isLoggedIn} = useGlobalContext();
+
+  if(!isLoading && isLoggedIn){
+    return <Redirect href={"/home"}></Redirect>
+  }
+
   return (
     <>
     <SafeAreaView className=" h-full bg-primary">
@@ -22,7 +29,7 @@ export default function App() {
       <View>
       <CustomButton
       title={"Continue to Email"}
-      onPress={()=> {router.navigate('/sign-up')}}
+      onPress={()=> {router.navigate('/sign-in')}}
       containerStyles={"w-[300]"}
       textStyles={""}
       isLoading={false}

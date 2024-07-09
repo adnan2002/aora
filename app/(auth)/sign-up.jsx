@@ -8,6 +8,7 @@ import icons from '../../constants/icons';
 import { Link, router } from 'expo-router';
 import { createUser } from '../../lib/appwrite';
 import { Alert } from 'react-native';
+import { useGlobalContext } from '../../context/GlobalProvider';
 
 const SignUp = () => {
     const [passwordHidden, setIsPasswordHidden] = useState(true);
@@ -19,8 +20,10 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
     const [submitting, setSubmitting] = useState(false);
 
+    const {setIsLoggedIn, setUser} = useGlobalContext();
+    
     const handleSubmit = async() => {
-           if(email || username || password){
+           if(!email || !username || !password){
             Alert.alert('Error', 'Please fill in all the fields')
            }
 
@@ -28,11 +31,13 @@ const SignUp = () => {
            
 
            try{
-            const result = await createUser(username, email, password);
-        
+            const NewUser = await createUser(username, email, password);
+            setIsLoggedIn(true);
+            setUser(NewUser);
+            
             router.push('/home');
            }catch(err){
-            Alert.alert('Error', err.message);
+             Alert.alert('Error', err.message);
            }finally{
             setSubmitting(false);
            

@@ -6,7 +6,7 @@ import CustomButton from '../../components/customButton';
 import images from '../../constants/images';
 import icons from '../../constants/icons';
 import { Link, router } from 'expo-router';
-import axios from 'axios';
+import { useGlobalContext } from '../../context/GlobalProvider';
 import { signIn } from '../../lib/appwrite';
 
 const SignIn = () => {
@@ -19,15 +19,18 @@ const SignIn = () => {
     const [result, setResult] =useState(null);
     const [submitting, setSubmitting] = useState(false);
 
+    const {setIsLoggedIn, setUser} = useGlobalContext();
 
     const handleSubmit = async ()=>{
-        if(!email, !password){
+        if(!email || !password){
             Alert.alert("Error", "Please fill all the fields");
         }
 
         setSubmitting(true);
         try{
             const result = await signIn(email, password);
+            setUser(result);
+            setIsLoggedIn(true);
             router.push('/home');
         }
         catch(err){
