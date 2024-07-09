@@ -5,8 +5,9 @@ import { ScrollView } from 'react-native';
 import CustomButton from '../../components/customButton';
 import images from '../../constants/images';
 import icons from '../../constants/icons';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { createUser } from '../../lib/appwrite';
+import { Alert } from 'react-native';
 
 const SignUp = () => {
     const [passwordHidden, setIsPasswordHidden] = useState(true);
@@ -16,10 +17,29 @@ const SignUp = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const [submitting, setSubmitting] = useState(false);
 
     const handleSubmit = async() => {
-           await createUser(username, email, password);
+           if(email || username || password){
+            Alert.alert('Error', 'Please fill in all the fields')
+           }
+
+           setSubmitting(true);
+           
+
+           try{
+            const result = await createUser(username, email, password);
+        
+            router.push('/home');
+           }catch(err){
+            Alert.alert('Error', err.message);
+           }finally{
+            setSubmitting(false);
+           
+           }
+
+
+
     };
 
     return (
@@ -33,7 +53,7 @@ const SignUp = () => {
                         <View className="w-[327px] h-[568px] flex flex-col justify-between">
                             <Image source={images.logo} resizeMode="contain" className="w-[115px] h-[35px]" />
                             <Text className="text-white text-lg font-psemibold">Sign Up</Text>
-                            <View>
+                        <View>
                                 <Text className="text-white text-lg font-plight">Username</Text>
                                 <View className={`w-full h-[45px] rounded-lg bg-black-200 mt-2 ${isUsernameFocused ? 'border-2 border-secondary-100' : ''}`}>
                                     <TextInput

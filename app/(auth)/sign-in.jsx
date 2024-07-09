@@ -5,8 +5,9 @@ import { ScrollView } from 'react-native';
 import CustomButton from '../../components/customButton';
 import images from '../../constants/images';
 import icons from '../../constants/icons';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import axios from 'axios';
+import { signIn } from '../../lib/appwrite';
 
 const SignIn = () => {
     const [passwordHidden, setIsPasswordHidden] = useState(true);
@@ -16,17 +17,24 @@ const SignIn = () => {
     const [password, setPassword] = useState('');
 
     const [result, setResult] =useState(null);
+    const [submitting, setSubmitting] = useState(false);
 
 
     const handleSubmit = async ()=>{
+        if(!email, !password){
+            Alert.alert("Error", "Please fill all the fields");
+        }
+
+        setSubmitting(true);
         try{
-            const data = await axios.get("http://192.168.100.136:5000");
-            setResult(data.data);
-            console.log(data.data);
+            const result = await signIn(email, password);
+            router.push('/home');
         }
         catch(err){
             console.log("Error: ", err);
-
+            Alert.alert("Error", err.message);
+        } finally{
+            setSubmitting(false);
         }
     }
 
