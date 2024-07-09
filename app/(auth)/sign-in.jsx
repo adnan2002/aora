@@ -6,6 +6,7 @@ import CustomButton from '../../components/customButton';
 import images from '../../constants/images';
 import icons from '../../constants/icons';
 import { Link } from 'expo-router';
+import axios from 'axios';
 
 const SignIn = () => {
     const [passwordHidden, setIsPasswordHidden] = useState(true);
@@ -14,10 +15,22 @@ const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [result, setResult] =useState(null);
 
-    const handleSubmit = () => {
-        console.log("Pressed")
-    };
+
+    const handleSubmit = async ()=>{
+        try{
+            const data = await axios.get("http://192.168.100.136:5000");
+            setResult(data.data);
+            console.log(data.data);
+        }
+        catch(err){
+            console.log("Error: ", err);
+
+        }
+    }
+
+
 
     return (
         <SafeAreaView className="h-full bg-primary">
@@ -70,6 +83,10 @@ const SignIn = () => {
                                     Don't have an account?{' '}
                                     <Link href="/sign-up" className="text-secondary-100 font-pbold">Sign Up</Link>
                                 </Text>
+                                {result && <View>
+                                        <Text className="text-white">{result.username}</Text>
+                                        <Text className="text-white">{result.password}</Text>
+                                    </View>}
                                 
                             </View>
                         </View>

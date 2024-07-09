@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native';
 import CustomButton from '../components/customButton.jsx';
 import images from '../constants/images';
 import { router } from 'expo-router';
+import 'react-native-url-polyfill/auto'
 
 
 export default function App() {

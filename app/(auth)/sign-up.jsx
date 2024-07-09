@@ -6,6 +6,7 @@ import CustomButton from '../../components/customButton';
 import images from '../../constants/images';
 import icons from '../../constants/icons';
 import { Link } from 'expo-router';
+import { createUser } from '../../lib/appwrite';
 
 const SignUp = () => {
     const [passwordHidden, setIsPasswordHidden] = useState(true);
@@ -17,8 +18,8 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
 
 
-    const handleSubmit = () => {
-        console.log("Pressed")
+    const handleSubmit = async() => {
+           await createUser(username, email, password);
     };
 
     return (
