@@ -8,12 +8,12 @@ import Trending from '../../components/Trending'
 import { StatusBar } from 'expo-status-bar'
 import { getVideos } from '../../lib/appwrite'
 import useAppWrite from '../../lib/useAppWrite'
+import VideoCards from '../../components/VideoCards'
 const home = () => {  
   const {data: posts, refetch, isLoading} = useAppWrite(getVideos);
   const [searchInput, setSearchInput] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   
-  console.log(posts);
   const onRefresh = async ()=>{
     setRefreshing(true);
     await refetch();
@@ -60,17 +60,20 @@ const home = () => {
           
         </View>
       <FlatList 
-      data={[{id:1}]}
-      keyExtractor={(item)=> item.id}
+      data={posts}
+      keyExtractor={(item)=> item.$id}
       renderItem={({item})=>(
-        <Text className="text-white">{item.id}</Text>
+        <VideoCards
+        data={item}
+        
+        />
       )}
       ListHeaderComponent={()=>{
         return (
           <View className="px-4 w-full ">
             <Text className="text-white font-pextralight text-lg">Trending Videos</Text>
           <Trending posts={
-            posts
+            []
           } />
           </View>
         )
