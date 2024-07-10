@@ -73,7 +73,7 @@ const home = () => {
           <View className="px-4 w-full ">
             <Text className="text-white font-pextralight text-lg">Trending Videos</Text>
           <Trending posts={
-            []
+            posts
           } />
           </View>
         )
