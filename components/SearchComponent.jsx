@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from 'react'
 import { View, TextInput, TouchableOpacity, Image } from 'react-native'
-import { usePathname } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 import icons from '../constants/icons'
 
 const SearchComponent = forwardRef(({ onChangeText, ...props }, ref) => {
@@ -16,7 +16,15 @@ const SearchComponent = forwardRef(({ onChangeText, ...props }, ref) => {
   };
 
   const handleSearchIcon = () => {
-    ref?.current?.focus();
+    if (!query.trim()) return;
+    if (pathName.startsWith('/search')) {
+      router.setParams({ query: query.trim() });
+    } else {
+      router.push({
+        pathname: '/search/[query]',
+        params: { query: query.trim() }
+      });
+    }
   };
 
   return (
@@ -30,6 +38,8 @@ const SearchComponent = forwardRef(({ onChangeText, ...props }, ref) => {
         onChangeText={handleChangeText}
         onFocus={() => setBorderSearch(true)}
         onBlur={() => setBorderSearch(false)}
+        onSubmitEditing={handleSearchIcon}
+        returnKeyType="search"
         {...props}
       />
       <TouchableOpacity className="flex items-center justify-center px-4" onPress={handleSearchIcon}>
