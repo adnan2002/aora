@@ -2,6 +2,8 @@ import {  Text, View, Image } from 'react-native'
 import React, {useState} from 'react'
 import icons from '../constants/icons'
 import { TouchableOpacity } from 'react-native'
+import { Video, ResizeMode } from 'expo-av'
+
 
 const VideoCards = ({data: {title, $id, thumbnail, prompt, video, creators:{avatar, username}}}) => {
     
@@ -35,7 +37,27 @@ const VideoCards = ({data: {title, $id, thumbnail, prompt, video, creators:{avat
 
       </View>
 
-      {play ? <View className="h-[190] w-full flex items-center justify-center"><Text className="text-white">Playing...</Text></View> : 
+      {play ? (
+              <Video 
+              source={{uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
+              className="w-full h-60 rounded-xl mt-3"
+        resizeMode={ResizeMode.CONTAIN}
+        useNativeControls
+        shouldPlay
+        isLooping
+        onPlaybackStatusUpdate={(status)=>{
+          if(status.didJustFinish){
+            setPlay(false);
+          }
+        }}
+        
+        onError={(error) => console.error('Video Error:', error)}
+        onLoad={() => console.log('Video loaded successfully')}
+      />
+      
+      )
+      
+      : 
     <TouchableOpacity activeOpacity={0.7} style={{ position: 'relative', marginTop: 10 }} onPress={()=> setPlay(true)}>
         <Image 
             source={{ uri: thumbnail }}

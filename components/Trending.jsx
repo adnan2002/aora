@@ -23,15 +23,24 @@ const TrendingItem = ({item, activeItem}) => {
       duration={500}
     >
 
-      {play ? (<Video 
-      source={{uri: item?.video}}
-      className="w-52 h-72 rounded-[35px] mt-3 bg-white/10"
-      resizeMode={ResizeMode.CONTAIN}
-      useNativeControls
-      shouldPlay
- 
-      
-      />) : (
+      {play ? (
+        <Video 
+        source={{uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
+        className="w-52 h-72 rounded-[35px] mt-3 bg-white/10"
+  resizeMode={ResizeMode.CONTAIN}
+  useNativeControls
+  shouldPlay
+  isLooping
+  onPlaybackStatusUpdate={(status)=>{
+    if(status.didJustFinish){
+      setPlay(false);
+    }
+  }}
+  onError={(error) => console.error('Video Error:', error)}
+  onLoad={() => console.log('Video loaded successfully')}
+/>
+    
+    ) : (
               <TouchableOpacity className="relative" onPress={()=> setPlay(true)}>
               <Image
               className="w-[175] h-[300] rounded-2xl"
