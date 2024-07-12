@@ -6,6 +6,7 @@ import { Video, ResizeMode } from 'expo-av'
 
 
 const VideoCards = ({data: {title, $id, thumbnail, prompt, video, creators:{avatar, username}}}) => {
+
     
     const [play, setPlay] = useState(false);
   return (
@@ -39,7 +40,7 @@ const VideoCards = ({data: {title, $id, thumbnail, prompt, video, creators:{avat
 
       {play ? (
               <Video 
-              source={{uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
+              source={{uri: video}}
               className="w-full h-60 rounded-xl mt-3"
         resizeMode={ResizeMode.CONTAIN}
         useNativeControls
